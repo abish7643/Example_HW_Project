@@ -1,0 +1,6 @@
+*backups/
+venv/
+.idea/
+__pycache__
+*.db
+.vscode/
