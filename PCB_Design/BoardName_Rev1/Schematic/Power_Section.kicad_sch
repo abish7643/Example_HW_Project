@@ -1,0 +1,15 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "4fdc5943-96e2-4075-80d8-257027321239")
+	(paper "A3")
+	(title_block
+		(title "BoardName")
+		(date "2025-06-02")
+		(rev "Rev1")
+		(company "Elementz Engineers Guild")
+		(comment 1 "Power Section of BoardName")
+	)
+	(lib_symbols)
+)
