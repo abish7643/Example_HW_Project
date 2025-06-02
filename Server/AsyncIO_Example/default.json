@@ -1,0 +1,20 @@
+{
+    "MQTT": {
+        "HOST": "localhost",
+        "PORT": 1883,
+        "USERNAME": "",
+        "PASSWORD": "",
+        "CLIENT_ID": "Example289467",
+        "PB_TOPIC": "device/example",
+        "QUERY_TOPIC": "device/example/query",
+        "ACK_TOPIC": "device/example/response",
+        "ALL_TOPIC": "device/all",
+        "EDIT_TOPIC": "device/example/edit",
+        "HB_INTERVAL": 5
+    },
+    "EXAMPLE": {
+        "MODE": 0,
+        "INTERVAL": 1
+    },
+    "LOG_LEVEL": "INFO"
+}

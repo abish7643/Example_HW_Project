@@ -1,0 +1,21 @@
+{
+    "MQTT": {
+        "HOST": "localhost",
+        "PORT": 1883,
+        "USERNAME": "",
+        "PASSWORD": "",
+        "CLIENT_ID": "ISOTOPEDETECTION289467",
+        "PB_TOPIC": "device/isotopedetection",
+        "QUERY_TOPIC": "device/isotopedetection/query",
+        "ACK_TOPIC": "device/isotopedetection/response",
+        "ALL_TOPIC": "device/all",
+        "EDIT_TOPIC": "device/isotopedetection/edit",
+        "SENSOR_TOPIC": "device/sensor",
+        "HB_INTERVAL": 5
+    },
+    "EXAMPLE": {
+        "MODE": 0,
+        "INTERVAL": 1
+    },
+    "LOG_LEVEL": "INFO"
+}
