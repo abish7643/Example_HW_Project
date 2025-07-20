@@ -4,3 +4,6 @@ venv/
 __pycache__
 *.db
 .vscode/
+
+include/build_attributes.h
+firmware_latest.bin
