@@ -23,7 +23,7 @@ on:
 
 jobs:
   build-and-release:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: write
       actions: read
@@ -34,15 +34,37 @@ jobs:
         with:
           fetch-depth: 0 # Fetch all history for proper changelog generation
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Cache pip
+        uses: actions/cache@v4
         with:
-          python-version: "3.x"
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-build-v1
+          restore-keys: |
+            ${{ runner.os }}-pip-build-
+
+      - name: Cache PlatformIO
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.platformio
+            .pio/build
+            .pio/libdeps
+          key: ${{ runner.os }}-pio-build-v1
+          restore-keys: |
+            ${{ runner.os }}-pio-build-
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          architecture: x64
 
       - name: Install PlatformIO
         run: |
           python -m pip install --upgrade pip
-          pip install platformio
+          pip install -U platformio
+          pio upgrade --dev
+          pio pkg update --global
 
       - name: Get version and build info
         id: version_info
@@ -116,7 +138,13 @@ jobs:
           name: PIOTemplate Firmware ${{ steps.version_info.outputs.VERSION }}
           body_path: release_notes.md
           draft: false
-          prerelease: ${{ contains(steps.version_info.outputs.VERSION, 'B') }}
+          prerelease: ${{ contains(steps.version_info.outputs.VERSION, 'B') ||
+            contains(steps.version_info.outputs.VERSION, 'A') ||
+            contains(steps.version_info.outputs.VERSION, 'Nightly') ||
+            contains(steps.version_info.outputs.VERSION, 'Dev') ||
+            contains(steps.version_info.outputs.VERSION, 'Alpha') ||
+            contains(steps.version_info.outputs.VERSION, 'Beta')
+            }}
           files: |
             ${{ steps.firmware_files.outputs.FIRMWARE_LIST }}
         env:
