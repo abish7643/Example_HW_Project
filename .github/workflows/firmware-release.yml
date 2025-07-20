@@ -1,0 +1,132 @@
+name: Firmware Release
+
+on:
+  push:
+    branches:
+      - Firmware_Releases
+    paths:
+      - "Firmware/Firmware_PIOTemplate/**"
+      - "!Firmware/Firmware_PIOTemplate/README.md"
+      - "!Firmware/Firmware_PIOTemplate/**/*.md"
+  workflow_dispatch:
+    inputs:
+      release_type:
+        description: "Release type (major, minor, patch, beta)"
+        required: false
+        default: "patch"
+        type: choice
+        options:
+          - major
+          - minor
+          - patch
+          - beta
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch all history for proper changelog generation
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+
+      - name: Install PlatformIO
+        run: |
+          python -m pip install --upgrade pip
+          pip install platformio
+
+      - name: Get version and build info
+        id: version_info
+        run: |
+          # Extract version from firmware.h
+          VERSION=$(grep -E '#define FIRMWARE_VERSION\s+"V[0-9]+\.[0-9]+\.[0-9]+[A-Z]?"' Firmware/Firmware_PIOTemplate/include/firmware.h | sed -E 's/.*"(V[0-9]+\.[0-9]+\.[0-9]+[A-Z]?)".*/\1/')
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+
+          # Get short commit hash in uppercase
+          COMMIT_HASH=$(git rev-parse --short HEAD | tr '[:lower:]' '[:upper:]')
+          echo "COMMIT_HASH=$COMMIT_HASH" >> $GITHUB_OUTPUT
+
+          # Create firmware filename
+          FIRMWARE_NAME="Firmware_PIOTemplate_${VERSION}+${COMMIT_HASH}"
+          echo "FIRMWARE_NAME=$FIRMWARE_NAME" >> $GITHUB_OUTPUT
+
+          # Create release tag
+          RELEASE_TAG="Firmware_PIOTemplate_${VERSION}"
+          echo "RELEASE_TAG=$RELEASE_TAG" >> $GITHUB_OUTPUT
+
+          echo "Version: $VERSION"
+          echo "Commit: $COMMIT_HASH"
+          echo "Firmware name: $FIRMWARE_NAME"
+          echo "Release tag: $RELEASE_TAG"
+
+      - name: Build firmware
+        run: |
+          cd Firmware/Firmware_PIOTemplate
+          pio run -e HWExample_RevA -e HWExample_RevB
+
+      - name: Find generated firmware files
+        id: firmware_files
+        run: |
+          # Find all generated firmware files with timestamp (now includes environment name)
+          ls -la Firmware/Firmware_PIOTemplate/.pio/build
+          FIRMWARE_FILES_A=$(find Firmware/Firmware_PIOTemplate/.pio/build/HWExample_RevA/ -name "Firmware_PIOTemplate_HWExample_RevA_*.bin")
+          FIRMWARE_FILES_B=$(find Firmware/Firmware_PIOTemplate/.pio/build/HWExample_RevB/ -name "Firmware_PIOTemplate_HWExample_RevB_*.bin")
+          FIRMWARE_FILES=$(printf "%s\n%s" "$FIRMWARE_FILES_A" "$FIRMWARE_FILES_B")
+
+          # Create a multiline string for GitHub release files
+          echo "FIRMWARE_LIST<<EOF" >> $GITHUB_OUTPUT
+          echo "$FIRMWARE_FILES" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+          # Display found files
+          echo "Generated firmware files:"
+          echo "$FIRMWARE_FILES"
+
+          # Count files for verification
+          FILE_COUNT=$(echo "$FIRMWARE_FILES" | wc -l)
+          echo "Found $FILE_COUNT firmware file(s)"
+
+      - name: Generate release notes
+        id: release_notes
+        run: |
+          # Get the previous release tag
+          PREV_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+
+          # Create release notes file
+          cat > release_notes.md << EOF
+          ## 🎯 Release Information
+          - **Version**: ${{ steps.version_info.outputs.VERSION }}
+          - **Build**: ${{ steps.version_info.outputs.COMMIT_HASH }}
+          - **Supported HW Revs**: HWExample_RevA, HWExample_RevB
+          EOF
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.version_info.outputs.RELEASE_TAG }}
+          name: PIOTemplate Firmware ${{ steps.version_info.outputs.VERSION }}
+          body_path: release_notes.md
+          draft: false
+          prerelease: ${{ contains(steps.version_info.outputs.VERSION, 'B') }}
+          files: |
+            ${{ steps.firmware_files.outputs.FIRMWARE_LIST }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload firmware artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: firmware-${{ steps.version_info.outputs.VERSION }}-all-variants
+          path: |
+            Firmware/Firmware_PIOTemplate/.pio/build/HWExample_RevA/Firmware_PIOTemplate_HWExample_RevA_*.bin
+            Firmware/Firmware_PIOTemplate/.pio/build/HWExample_RevB/Firmware_PIOTemplate_HWExample_RevB_*.bin
+          retention-days: 90
