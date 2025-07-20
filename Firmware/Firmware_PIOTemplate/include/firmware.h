@@ -6,7 +6,7 @@
 
 ////////////////////////// Firmware Info //////////////////////////
 
-#define FIRMWARE_VERSION "V0.0.1A" \
+#define FIRMWARE_VERSION "V0.0.1B" \
                          "+" GIT_COMMIT_HASH "_" BUILD_TIMESTAMP
 
 ///////////////////////////////////////////////////////////////////
