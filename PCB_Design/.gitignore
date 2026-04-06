@@ -32,6 +32,8 @@ scripts/__pycache__/
 
 # Kicad Cache
 fp-info-cache
+*.lck
+.python-version
 
 # Kiri
 .kiri
