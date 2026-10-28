@@ -3,10 +3,10 @@
 	(generator "eeschema")
 	(generator_version "9.0")
 	(uuid "b4fdb0bf-7bbf-4671-a98f-2d568d6ab6cb")
-	(paper "A3")
+	(paper "A4")
 	(title_block
 		(title "BoardName")
-		(date "2025-06-02")
+		(date "2026-04-06")
 		(rev "Rev1")
 		(company "Elementz Engineers Guild")
 		(comment 1 "Main Page Description")
@@ -1639,7 +1639,7 @@
 	)
 	(symbol
 		(lib_id "Mechanical:MountingHole")
-		(at 355.9388 158.8687 0)
+		(at 256.54 142.24 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
@@ -1648,7 +1648,7 @@
 		(fields_autoplaced yes)
 		(uuid "7965bde0-65e7-47ec-9cea-04d9741aab3a")
 		(property "Reference" "H4"
-			(at 358.4788 157.5986 0)
+			(at 259.08 140.9699 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1657,7 +1657,7 @@
 			)
 		)
 		(property "Value" "MountingHole"
-			(at 358.4788 160.1386 0)
+			(at 259.08 143.5099 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1666,7 +1666,7 @@
 			)
 		)
 		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3_ISO7380_Pad_TopBottom"
-			(at 355.9388 158.8687 0)
+			(at 256.54 142.24 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1675,7 +1675,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 355.9388 158.8687 0)
+			(at 256.54 142.24 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1684,7 +1684,7 @@
 			)
 		)
 		(property "Description" "Mounting Hole without connection"
-			(at 355.9388 158.8687 0)
+			(at 256.54 142.24 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1703,7 +1703,7 @@
 	)
 	(symbol
 		(lib_id "Mechanical:MountingHole")
-		(at 318.77 160.02 0)
+		(at 256.54 133.35 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
@@ -1712,7 +1712,7 @@
 		(fields_autoplaced yes)
 		(uuid "97d0ef19-fc18-4d09-a33e-a5c9db6c6d81")
 		(property "Reference" "H2"
-			(at 321.31 158.7499 0)
+			(at 259.08 132.0799 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1721,7 +1721,7 @@
 			)
 		)
 		(property "Value" "MountingHole"
-			(at 321.31 161.2899 0)
+			(at 259.08 134.6199 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1730,7 +1730,7 @@
 			)
 		)
 		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3_ISO7380_Pad_TopBottom"
-			(at 318.77 160.02 0)
+			(at 256.54 133.35 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1739,7 +1739,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 318.77 160.02 0)
+			(at 256.54 133.35 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1748,7 +1748,7 @@
 			)
 		)
 		(property "Description" "Mounting Hole without connection"
-			(at 318.77 160.02 0)
+			(at 256.54 133.35 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1767,7 +1767,7 @@
 	)
 	(symbol
 		(lib_id "Mechanical:MountingHole")
-		(at 337.5852 159.4459 0)
+		(at 237.49 142.24 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
@@ -1776,7 +1776,7 @@
 		(fields_autoplaced yes)
 		(uuid "bcbef872-1f45-49c1-a585-f077fd7c46d7")
 		(property "Reference" "H3"
-			(at 340.1252 158.1758 0)
+			(at 240.03 140.9699 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1785,7 +1785,7 @@
 			)
 		)
 		(property "Value" "MountingHole"
-			(at 340.1252 160.7158 0)
+			(at 240.03 143.5099 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1794,7 +1794,7 @@
 			)
 		)
 		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3_ISO7380_Pad_TopBottom"
-			(at 337.5852 159.4459 0)
+			(at 237.49 142.24 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1803,7 +1803,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 337.5852 159.4459 0)
+			(at 237.49 142.24 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1812,7 +1812,7 @@
 			)
 		)
 		(property "Description" "Mounting Hole without connection"
-			(at 337.5852 159.4459 0)
+			(at 237.49 142.24 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1831,7 +1831,7 @@
 	)
 	(symbol
 		(lib_id "Mechanical:MountingHole")
-		(at 299.72 160.02 0)
+		(at 237.49 133.35 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
@@ -1840,7 +1840,7 @@
 		(fields_autoplaced yes)
 		(uuid "c84915d8-e865-4f13-92e8-e91e3ef08723")
 		(property "Reference" "H1"
-			(at 302.26 158.7499 0)
+			(at 240.03 132.0799 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1849,7 +1849,7 @@
 			)
 		)
 		(property "Value" "MountingHole"
-			(at 302.26 161.2899 0)
+			(at 240.03 134.6199 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1858,7 +1858,7 @@
 			)
 		)
 		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3_ISO7380_Pad_TopBottom"
-			(at 299.72 160.02 0)
+			(at 237.49 133.35 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1867,7 +1867,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 299.72 160.02 0)
+			(at 237.49 133.35 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1876,7 +1876,7 @@
 			)
 		)
 		(property "Description" "Mounting Hole without connection"
-			(at 299.72 160.02 0)
+			(at 237.49 133.35 0)
 			(effects
 				(font
 					(size 1.27 1.27)

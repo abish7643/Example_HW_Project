@@ -32,6 +32,23 @@ def get_firmware_version():
     return version, commit_hash, build_timestamp
 
 
+def merge_firmware(app_bin, merged_bin, env):
+    images = []
+    for offset, image in env.get("FLASH_EXTRA_IMAGES", []):
+        images += [offset, f'"{env.subst(image)}"']
+    images += ["$ESP32_APP_OFFSET", f'"{app_bin}"']
+
+    board = env.BoardConfig()
+    command = " ".join([
+        '"$PYTHONEXE"', '"$OBJCOPY"', "--chip", board.get("build.mcu", "esp32"),
+        "merge_bin", "-o", f'"{merged_bin}"',
+        "--flash_mode", "${__get_board_flash_mode(__env__)}",
+        "--flash_freq", "${__get_board_f_flash(__env__)}",
+        "--flash_size", board.get("upload.flash_size", "keep"),
+    ] + images)
+    return env.Execute(command)
+
+
 def rename_firmware(source, target, env):
     """Rename firmware file after build"""
     print("Post-build: Renaming firmware file...")
@@ -47,7 +64,7 @@ def rename_firmware(source, target, env):
     new_filename = f"Firmware_PIOTemplate_{env_name}_{version}+{commit_hash}_{build_timestamp}.bin"
 
     # The source parameter is the actual firmware path
-    firmware_src = str(source[0])
+    firmware_src = str(source[0]).replace(".elf", ".bin")
     print(f"Source firmware: {firmware_src}")
 
     # Get the directory and create new path
@@ -55,12 +72,21 @@ def rename_firmware(source, target, env):
     firmware_dst = os.path.join(firmware_dir, new_filename)
 
     # Copy with new name
-    if os.path.exists(firmware_src):
-        shutil.copy2(firmware_src, firmware_dst)
-        print(f"Firmware renamed to: {new_filename}")
-        print(f"Full path: {firmware_dst}")
-    else:
+    if not os.path.exists(firmware_src):
         print(f"Error: Firmware file not found at {firmware_src}")
+        return 1
+
+    shutil.copy2(firmware_src, firmware_dst)
+    print(f"Firmware renamed to: {new_filename}")
+    print(f"Full path: {firmware_dst}")
+
+    full_dst = os.path.splitext(firmware_dst)[0] + "_Full.bin"
+    if merge_firmware(firmware_src, full_dst, env):
+        print("Error: Failed to write the full flash image")
+        return 1
+    print(f"Full flash image: {os.path.basename(full_dst)}")
+    print(f"Flash over UART: esptool.py --chip esp32 --port /dev/ttyUSB0 --baud 921600 write_flash 0x0 {os.path.basename(full_dst)}")
+    return 0
 
 
 # Register post-build action

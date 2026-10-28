@@ -29,3 +29,11 @@ scripts/__pycache__/
 *.bak
 *.dwl
 *.dwl2
+
+# Kicad Cache
+fp-info-cache
+*.lck
+.python-version
+
+# Kiri
+.kiri
